@@ -1,0 +1,12 @@
+.*
+!.gitignore
+*.log
+/*.pdf
+*.blg
+*.bbl
+*.swp
+*.tmp
+*.gz
+*.out
+*.aux
+*.cpt
