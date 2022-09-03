@@ -2,3 +2,26 @@
 
 \section{Introduction}
 \label{sec:introduction}
+
+
+\todo[inline]{
+A motivation as to why the tool is interesting and significant should be provided. Further, the paper should describe aspects such as, for example, the assumptions about application domain and/or extent of potential generality, demonstrate the tool workflow(s), explain integration and/or human interaction, evaluate the overall role and the impact to the development process.
+}
+
+
+Pro's
+
+- uses a fully symbolic (WPBDD) encoding, avoiding numerical instability in real-based DDs
+
+- can handle any network?
+
+- Does parallel inference (unique?)
+
+- The compositional approach through partitioning offers various advantages. In the first place, it can reduce the effort spent on compilation because the decomposition of a propositional theory is known to yield smaller symbolic representations, which has previously been shown in model checking~\cite{narayan1996partitioned,sahoo2004partitioning,grumberg2006work} and is confirmed by our experiments (which show orders of magnitudes improvement in \myref[Table]{tab:compilation}).
+
+
+Con's 
+
+- This benefit of partitioning in compilation is offset by a potential increase in the time spent on inference, although our experiments still demonstrate good performance due to the smaller representations.
+
+-  ?
