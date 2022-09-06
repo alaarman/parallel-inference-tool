@@ -1,5 +1,12 @@
 %!TEX root = main.tex
 
+% keep spacing after a todo
+\makeatletter
+\xpretocmd{\todo}{\@bsphack}{}{}
+\xapptocmd{\todo}{\@esphack}{}{}
+\makeatother
+
+% add a different todo color
 \newcommand\mytodo[1]{\todo[color=lightgray]{#1}}
 
 \newcommand\defaccr[2]{\newcommand#1{#2\xspace}}
