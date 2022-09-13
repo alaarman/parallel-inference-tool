@@ -1,3 +1,7 @@
+\usepackage{tikz}
+%\usepackage{gnuplot-lua-tikz}
+
+
 % relabeling of tikz nodes
 \newcommand{\tikzlabel}[2]{
     \ifdefined #1
@@ -15,26 +19,26 @@
 }
 \makeatother
 
-%\usetikzlibrary{trees}
+% %\usetikzlibrary{trees}
 
-% externalize tikz images for faster compilation
-\usetikzlibrary{external}
-\newcommand{\mytikzdirectory}{tikz}
+% % externalize tikz images for faster compilation
+% \usetikzlibrary{external}
+% \newcommand{\mytikzdirectory}{tikz}
+%
+% \providecommand{\mybuilddirectory}{.}
+% \immediate\write18{mkdir -p \mybuilddirectory/\mytikzdirectory}
+% \immediate\write18{mkdir -p \mytikzdirectory}
+%
+% \tikzset{external/up to date check={simple}}       % flag up-to-date by option '{md5}' (checksum) or '{simple}' (checks if file exists)
+% \tikzset{external/mode=convert with system call}   % generate pdf of not exists or not up-to-date
+% %\tikzset{external/mode=graphics if exists}        % include pdf if exists, otherswize compile tikz code
+% %\tikzset{external/optimize=false}
+% \tikzexternalize
+% \tikzsetexternalprefix{\mytikzdirectory/}
 
-\providecommand{\mybuilddirectory}{.}
-\immediate\write18{mkdir -p \mybuilddirectory/\mytikzdirectory}
-\immediate\write18{mkdir -p \mytikzdirectory}
-
-\tikzset{external/up to date check={simple}}       % flag up-to-date by option '{md5}' (checksum) or '{simple}' (checks if file exists)
-\tikzset{external/mode=convert with system call}   % generate pdf of not exists or not up-to-date
-%\tikzset{external/mode=graphics if exists}        % include pdf if exists, otherswize compile tikz code
-%\tikzset{external/optimize=false}
-\tikzexternalize
-\tikzsetexternalprefix{\mytikzdirectory/}
-
-% \tikzsetnextfilename{\jobname}
-% \tikzexternaldisable
-% \tikzexternalenable
+% % \tikzsetnextfilename{\jobname}
+% % \tikzexternaldisable
+% % \tikzexternalenable
 \newcommand{\mydisable}{\tikzexternaldisable}
 \newcommand{\myenable}{\tikzexternalenable}
 
