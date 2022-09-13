@@ -1,0 +1,102 @@
+% relabeling of tikz nodes
+\newcommand{\tikzlabel}[2]{
+    \ifdefined #1
+        \renewcommand{#1}{#2}
+    \else
+        \newcommand{#1}{#2}
+    \fi
+}
+
+% patch tikz's usetikzlibrary to allow local package loading
+\usepackage{etoolbox}
+\makeatletter
+\AtBeginDocument{%
+  \patchcmd{\use@@tikzlibrary}{\global}{}{}{}%
+}
+\makeatother
+
+%\usetikzlibrary{trees}
+
+% externalize tikz images for faster compilation
+\usetikzlibrary{external}
+\newcommand{\mytikzdirectory}{tikz}
+
+\providecommand{\mybuilddirectory}{.}
+\immediate\write18{mkdir -p \mybuilddirectory/\mytikzdirectory}
+\immediate\write18{mkdir -p \mytikzdirectory}
+
+\tikzset{external/up to date check={simple}}       % flag up-to-date by option '{md5}' (checksum) or '{simple}' (checks if file exists)
+\tikzset{external/mode=convert with system call}   % generate pdf of not exists or not up-to-date
+%\tikzset{external/mode=graphics if exists}        % include pdf if exists, otherswize compile tikz code
+%\tikzset{external/optimize=false}
+\tikzexternalize
+\tikzsetexternalprefix{\mytikzdirectory/}
+
+% \tikzsetnextfilename{\jobname}
+% \tikzexternaldisable
+% \tikzexternalenable
+\newcommand{\mydisable}{\tikzexternaldisable}
+\newcommand{\myenable}{\tikzexternalenable}
+
+\newcommand{\mytikzscale}{0.3}
+\newcommand{\mytikzfigurewidth}{318pt} % value of column width: \the\columnwidth
+\newcommand{\mytikznodesize}{12.5pt}
+\newcommand{\textnode}[1][]{\node[align=left,font=\mytikznormalfontsize,inner sep=0pt,rectangle,draw=none,#1]}
+\newcommand{\terminalnode}[1][]{\node[rectangle,minimum size=0.4cm,solid,#1]}
+
+\usepackage{currfile}
+\providecommand{\mylabelprefix}{}
+\newcommand{\mytikzfigurekey}{\mylabelprefix-\currfilename}
+
+\newcommand{\mytikzfontsize}{\small}  % \normalsize
+\newcommand{\mytikzsmallfontsize}{\small}
+\newcommand{\mytikznormalfontsize}{\normalsize}
+
+\tikzstyle{false}=[
+    densely dashed
+]
+
+\tikzstyle{weight}=[
+    font=\footnotesize
+]
+
+% set ratio to metric distances
+% \tikzset{x=1cm,y=1cm}
+
+
+\tikzstyle{mytikzcircuitoptions}=[
+    scale=\mytikzscale,
+    every path/.append style={-},
+    every node/.append style={draw=none,inner sep=0pt,rectangle},
+    minimum size=0.5cm,
+    inner sep=0pt,
+    thin,
+    font=\mytikznormalfontsize]
+
+\tikzstyle{mytikzgraphoptions}=[
+    scale=\mytikzscale,
+    every path/.append style={>=latex,->},
+    every node/.append style={draw,circle,solid},
+    minimum size=0.5cm,
+    inner sep=0pt,
+    thin,
+    font=\mytikznormalfontsize
+]
+
+\tikzstyle{mytikzbddoptions}=[
+    scale=\mytikzscale,
+    every path/.append style={>=latex,->},
+    every node/.append style={draw,circle,solid},
+    minimum size=0.5cm,
+    inner sep=0pt,
+    thin,
+    font=\mytikznormalfontsize
+]
+
+\tikzset{global scale/.style={
+        scale=#1,
+        every node/.append style={scale=#1}
+    }
+}
+
+%\newcommand{\tikztext}[2]{\fill[black] #1 node[draw=none,right] {#2} }

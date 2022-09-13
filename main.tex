@@ -1,9 +1,9 @@
 \documentclass[10pt,conference]{llncs2e/llncs}
 \usepackage{etex}
 
-
-\input{preamble}
-\input{macros}
+%\input{preamble/tikzconfig}
+\input{preamble/preamble}
+\input{preamble/macros}
 
 %TACAS CALL:
 %Tool-demonstration papers focus on the usage aspects of tools and are also subject to the artifact submission requirement. Theoretical foundations and experimental evaluation are not required, however, a motivation as to why the tool is interesting and significant should be provided. Further, the paper should describe aspects such as, for example, the assumptions about application domain and/or extent of potential generality, demonstrate the tool workflow(s), explain integration and/or human interaction, evaluate the overall role and the impact to the development process.
@@ -25,19 +25,20 @@
 \maketitle
 
 \begin{abstract}
-\input{00_abstract}
+\input{sections/00_abstract}
 \end{abstract}
 
-\input{01_introduction}
-\input{03_preliminaries}
-\input{05_contribution}
-\input{06_usage}
-%\input{07_experiments}
-%\input{06_relatedwork}
-\input{08_conclusion}
+\input{sections/01_introduction}
+\input{sections/03_preliminaries}
+\input{sections/05_contribution}
+\input{sections/06_usage}
+%\input{sections/07_experiments}
+%\input{sections/06_relatedwork}
+\input{sections/08_conclusion}
 
 \bibliographystyle{plain}
 \bibliography{lit}
+
 %\clearpage
 %\input{09_appendix}
 
