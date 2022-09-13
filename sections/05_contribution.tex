@@ -2,8 +2,7 @@
 
 
 \section{Parallel Compilation and Inference}
-\label{sec:parallel}
-
+\label{secjjparallel}
 
 \begin{figure}[!t]
     \centering
@@ -14,7 +13,19 @@
     \label{fig:frameworkoverview}
 \end{figure}
 
-\todo[inline]{
-Figure with tool design
-}
+Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{zhang1996exploiting,boutilier1996context,friedman1998learning}.  
+
+The presented tool implements inference by \emph{Weight Model Counting} (WMC). The goal of inference by WMC is reducing size and reasoning requirements by exploiting unused independencies, in order to perform inference more efficiently. Probability distributions are encoded as Boolean functions, allowing their symbolic representation to be minimized using Boolean algebra. Let's back up for a moment, by describing the means to this end. 
+
+BNs are defined over multi-valued domains. In order to use Boolean algebra to minimize the probability distribution represented by it, we require an encoding is to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this, but \toolname chooses to translate a BN into a Satisfiability (SAT) instance in Conjunctive Normal Form (CNF), a form commonly used in satisfiability solving~\cite{dal2017wpbdd}. 
+
+The SAT instance serves as an entry point into the field of SAT solving, granting access to the many advances made in language compilers. Compilers that take a SAT instance and compile it to a Binary Decision Diagram (BDD) for instance. \toolname is a compiler for \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), that in addition to simple compilation also uses partitioning to further improve overall performance.
+
+Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes. \toolname implements WMC in two major parts: \emph{compilation} and \emph{inference}. Let's dive into the compilation part. Given a user provided number of partitions, a partitioning is found for the BN. 
+
+The inference part...
+
+
+
+%The process is typically done in a framework where ($\scriptstyle 1$) a BN's factorization is encoded as a Boolean formula $f$~\cite{chavira2008probabilistic}, ($\scriptstyle 2$) from $f$ we derive an equivalent symbolic \emph{target representation}, e.g., a normal form, that respects the factorization and improves it further to allow for more efficient inference. Most commonly, a type of decision diagram is used as target representation.This process is referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation, and ($\scriptstyle 3$) the computational complexity of inference is linear in the size of the target representations if it adheres to a set of key properties~\cite{darwiche2002knowledge}. Inference is performed by traversing the target representation whilst evaluating the underlying arithmetic formula.
 
