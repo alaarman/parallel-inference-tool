@@ -33,20 +33,53 @@
         \end{scope}
 
 
+
         % compiler
         \begin{scope}[shift={(7,0)},every text node part/.style={align=center}]
-            \node[draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (compiler) at (0,0)     {\verb+COMPILER+};
+            \node[fill=black!15,draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (compiler) at (0,0)     {\verb+COMPILER+};
+
+            % ordering
+            \draw[->, color=black!50] (2.75, 1.8) -- (6.3, 1.8);
+            \draw[->, color=black!50, dashed, rounded corners=2pt]  (6.2, 3) -- (-4,3) -- (-4, 1) -- (-2.7,1);
+
+
+            % partitioning
+            \draw[->, color=black!50] (2.75, -1.8) -- (5.3, -1.8);
+            \draw[->, dashed, rounded corners=2pt, color=black!50]  (5.2, -3) -- (-4,-3) -- (-4, -1) -- (-2.7,-1);
+            \draw[->, rounded corners=2pt, color=black!50]  (8.2, -4.7) -- (8.2,-9.8)  -- (-5.2,-9.8)-- (-5.2, -13.2) -- (-2.7, -13.2);
+
+
+            % mapping
+            \draw[->, color=black!50] (4.8, -1.8) -- (4.8, -5.3);
+            \draw[->, rounded corners=2pt, color=black!50]  (7.2, -8.7) -- (7.2,-9.4) -- (-5.6,-9.4) -- (-5.6, -13.6) -- (-2.7, -13.6);
+
+
+            % to bdds
+            \draw[->, rounded corners=2pt, color=black!50] (2.75, 0.4) -- (11.8, 0.4) -- (11.8, 3) -- (13.3, 3);
+            \draw[->, rounded corners=2pt, color=black!50] (2.75, 0) -- (12.3, 0);
+            \draw[->, rounded corners=2pt, color=black!50] (2.75, -0.4) -- (11.8, -0.4) -- (11.8, -5.3);
+
+            % away from bdds
+            \draw[->, rounded corners=2pt, color=black!50] (16.2, 1.28) -- (16.2, -11) -- (-4,-11) -- (-4, -12)-- (-2.7, -12);
+            \draw[->, rounded corners=2pt, color=black!50] (15.2, -2.73) -- (15.2, -10.6)-- (-4.4,-10.6) -- (-4.4,  -12.4) -- (-2.7, -12.4);
+            \draw[->, rounded corners=2pt, color=black!50] (14.2, -8.7) -- (14.2, -10.2)-- (-4.8,-10.2) -- (-4.8, -12.8) -- (-2.7, -12.8);
+            \draw[->, rounded corners=2pt, color=black!50] (-6, -1.7) -- (-6, -14)-- (-2.7, -14);
+
 
         \end{scope}
 
         % inference engine
-        \begin{scope}[shift={(7,-12)},every text node part/.style={align=center}]
-            \node[draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (inference) at (0,0)     {\verb+INFERENCE+\\\verb+ENGINE+};
+        \begin{scope}[shift={(7,-14)},every text node part/.style={align=center}]
+            \node[fill=black!15,draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (inference) at (0,0)     {\verb+INFERENCE+\\\verb+ENGINE+};
+
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=65pt,minimum height=\myrectanglesize]  (probs) at (8,0)     {Probabilities};
+            \draw[->, color=black!50] (inference) edge (probs);
+
 
         \end{scope}
 
         % ordering file
-        \begin{scope}[shift={(15,8)}]
+        \begin{scope}[shift={(15,3)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (ordering) at (0,0)     {};
 
             \textnode[align=center, shift={(0,0.3)}] {Ordering\\file};
@@ -54,14 +87,14 @@
         \end{scope}
 
 % partition file
-        \begin{scope}[shift={(14,3)}]
+        \begin{scope}[shift={(14,-3)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (partition) at (0,0)     {};
             \textnode[align=center, shift={(0,0.3)}] {Partition\\file};
             \textnode[shift={(0,-0.5)}] {\small \verb+.part+};
         \end{scope}
 
         % mapping file
-        \begin{scope}[shift={(14,-3)}]
+        \begin{scope}[shift={(13,-7)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (mapping) at (0,0)     {};
 
             \textnode[align=center, shift={(0,0.3)}] {Mapping\\file};
@@ -70,7 +103,7 @@
 
 
         % first BDD
-        \begin{scope}[shift={(23,8)}]
+        \begin{scope}[shift={(22,3)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd1) at (0,0)     {};
 
             \textnode[rotate=90] (bdd1label) at (1.2,0) {\small\verb+.0.bdd+};
@@ -98,7 +131,7 @@
         \end{scope}
 
         % second BDD
-        \begin{scope}[shift={(22,3)}]
+        \begin{scope}[shift={(21,-1)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd2) at (0,0)     {};
 
             \textnode[rotate=90] (bdd2label) at (1.2,0) {\small\verb+.1.bdd+};
@@ -125,28 +158,30 @@
             \end{scope}
         \end{scope}
 
+        \begin{scope}[shift={(20.2,-4)}]
+            \textnode[] (bddntag) at (0,0) {\verb+...+};
+
+        \end{scope}
+
+
         % third BDD
-        \begin{scope}[shift={(21,-2)}]
+        \begin{scope}[shift={(20,-7)}]
             \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd2) at (0,0)     {};
 
             \textnode[rotate=90] (bddnlabel) at (1.2,0) {\small\verb+.n.bdd+};
             \textnode[] (bddntag) at (-0.5,0) {\verb+...+};
-
-
         \end{scope}
 
 
-        \begin{scope}[every node/.style={
-                rotate=45,
-                draw=none,
-                anchor=west,
-                align=left}]
-            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (bn) -- (8,0);
-            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (partitionedbn) -- (8,-5);
-            \usetikzlibrary{calc}
+        \draw[->, color=black!50] (bn) edge (compiler);
 
+        \begin{scope}[shift={(0,-15.2)}]
+
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=25pt]  (query) at (0,0)     {Queries};
+           \draw[->, color=black!50] (query) edge (4.3, 0);
 
         \end{scope}
+
 
 \end{tikzpicture}
 \endgroup
