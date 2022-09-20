@@ -13,11 +13,18 @@
     \label{fig:frameworkoverview}
 \end{figure}
 
-Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{zhang1996exploiting,boutilier1996context,friedman1998learning}.  
+\begin{figure}[!t]
+    \centering
+    \input{figures/implementation.tex}
+    \caption{The implementation.}
+    \label{fig:implementation}
+\end{figure}
 
-The presented tool implements inference by \emph{Weight Model Counting} (WMC). The goal of inference by WMC is reducing size and reasoning requirements by exploiting unused independencies, in order to perform inference more efficiently. Probability distributions are encoded as Boolean functions, allowing their symbolic representation to be minimized using Boolean algebra. Let's back up for a moment, by describing the means to this end. 
+Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{zhang1996exploiting,boutilier1996context,friedman1998learning}.
 
-BNs are defined over multi-valued domains. In order to use Boolean algebra to minimize the probability distribution represented by it, we require an encoding is to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this, but \toolname chooses to translate a BN into a Satisfiability (SAT) instance in Conjunctive Normal Form (CNF), a form commonly used in satisfiability solving~\cite{dal2017wpbdd}. 
+The presented tool implements inference by \emph{Weight Model Counting} (WMC). The goal of inference by WMC is reducing size and reasoning requirements by exploiting unused independencies, in order to perform inference more efficiently. Probability distributions are encoded as Boolean functions, allowing their symbolic representation to be minimized using Boolean algebra. Let's back up for a moment, by describing the means to this end.
+
+BNs are defined over multi-valued domains. In order to use Boolean algebra to minimize the probability distribution represented by it, we require an encoding is to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this, but \toolname chooses to translate a BN into a Satisfiability (SAT) instance in Conjunctive Normal Form (CNF), a form commonly used in satisfiability solving~\cite{dal2017wpbdd}.
 
 The SAT instance serves as an entry point into the field of SAT solving, granting access to the many advances made in language compilers. Compilers that take a SAT instance and compile it to a Binary Decision Diagram (BDD) for instance. Compiling a BN into a BDD like representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation. \toolname is a compiler for \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), that in addition to simple compilation also uses partitioning to further improve overall performance.
 
@@ -27,5 +34,5 @@ With the partitioning in hand, the following steps can be performed in parallel,
 
 We arrive at the inference part of \toolname. The upside of getting this far, is the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD. Inference is performed by traversing the target representation whilst evaluating the underlying arithmetic formula. The arithmetic formula is different for every target representation, but generally we can convert a logical OR to addition, logical AND to multiplication, and substitute variables with the value or probability they represent. All that is left, is to evaluate this formula in order to obtain the marginal probability we seek.
 
-In case we chose to partition the BN, we compose the obtained WPBDDs and create a monolithic WPBDD. A partition is connected to another of they share a common variable. This implies that order in which we traverse partitions is not a total ordering. It is partial, and can be represented by a tree.The order in which we choose to traverse partitions determines how they are connected. As we traverse one partition, its sink is connected to the next partitions root.  
+In case we chose to partition the BN, we compose the obtained WPBDDs and create a monolithic WPBDD. A partition is connected to another of they share a common variable. This implies that order in which we traverse partitions is not a total ordering. It is partial, and can be represented by a tree.The order in which we choose to traverse partitions determines how they are connected. As we traverse one partition, its sink is connected to the next partitions root.
 

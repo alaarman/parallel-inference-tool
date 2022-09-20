@@ -1,0 +1,153 @@
+\begin{minipage}[!]{\mytikzfigurewidth}
+    \centering
+    \begingroup
+    \begin{tikzpicture}[scale=1.5*\mytikzscale,
+            every path/.style={>=latex},
+            inner sep=0pt,
+            line width=1pt,
+            thin,
+            font=\mytikznormalfontsize]
+
+        \newcommand{\myrectanglesize}{44pt}
+        \newcommand{\mynodesize}{16pt}
+        \newcommand{\mytikzlocalscale}{0.5}
+
+        % bayesian network input
+        \begin{scope}[shift={(0,0)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bn) at (0,0)     {};
+
+
+            \begin{scope}[
+                shift={(0,1)},
+                scale=\mytikzlocalscale,
+                every node/.style={solid,circle,draw,minimum size=\mynodesize*\mytikzlocalscale},
+                every path/.style={>=latex,->},
+                ]
+                \node (a) at (0,0)     {};
+                \node (b) at (-2,-2.5) {};
+                \node (c) at ( 2,-2.5) {};
+                \draw (a) edge (b);
+                \draw (a) edge (c);
+            \end{scope}
+            \textnode (bnlabel) at (0,-1.2) {\small\verb+.net+};
+        \end{scope}
+
+
+        % compiler
+        \begin{scope}[shift={(7,0)},every text node part/.style={align=center}]
+            \node[draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (compiler) at (0,0)     {\verb+COMPILER+};
+
+        \end{scope}
+
+        % inference engine
+        \begin{scope}[shift={(7,-12)},every text node part/.style={align=center}]
+            \node[draw,rectangle,solid,thin,minimum width=70pt,minimum height=55pt]  (inference) at (0,0)     {\verb+INFERENCE+\\\verb+ENGINE+};
+
+        \end{scope}
+
+        % ordering file
+        \begin{scope}[shift={(15,8)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (ordering) at (0,0)     {};
+
+            \textnode[align=center, shift={(0,0.3)}] {Ordering\\file};
+            \textnode[shift={(0,-0.5)}] {\small \verb+.ord+};
+        \end{scope}
+
+% partition file
+        \begin{scope}[shift={(14,3)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (partition) at (0,0)     {};
+            \textnode[align=center, shift={(0,0.3)}] {Partition\\file};
+            \textnode[shift={(0,-0.5)}] {\small \verb+.part+};
+        \end{scope}
+
+        % mapping file
+        \begin{scope}[shift={(14,-3)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (mapping) at (0,0)     {};
+
+            \textnode[align=center, shift={(0,0.3)}] {Mapping\\file};
+            \textnode[shift={(0,-0.5)}] {\small \verb+.map+};
+        \end{scope}
+
+
+        % first BDD
+        \begin{scope}[shift={(23,8)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd1) at (0,0)     {};
+
+            \textnode[rotate=90] (bdd1label) at (1.2,0) {\small\verb+.0.bdd+};
+
+            \begin{scope}[shift={(-0.7,1.2)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[circle,solid] (a) at (0,0)     {};
+                \node[circle,solid] (b) at (-1,-1.5) {};
+                \node[circle,solid] (c) at ( 1,-1.5) {};
+                \node[circle,solid] (d) at (0,-3)     {};
+                \node[circle,solid] (e) at (2,-3) {};
+                \node[rectangle,solid] (true) at (0,-5) {};
+                \node[rectangle,solid] (false) at (2,-5) {};
+
+                \draw[-] (a) edge (b);
+                \draw[-,densely dotted] (a) edge (c);
+                \draw[-] (c) edge (d);
+                \draw[-,densely dotted] (c) edge (e);
+                \draw[-,bend right=20] (b) edge (true);
+                \draw[-,densely dotted,bend left=20] (b) edge (false);
+                \draw[-] (d) edge (true);
+                \draw[-,densely dotted] (d) edge (false);
+                \draw[-] (e) edge (true);
+                \draw[-,densely dotted] (e) edge (false);
+            \end{scope}
+        \end{scope}
+
+        % second BDD
+        \begin{scope}[shift={(22,3)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd2) at (0,0)     {};
+
+            \textnode[rotate=90] (bdd2label) at (1.2,0) {\small\verb+.1.bdd+};
+
+            \begin{scope}[xscale=-1,shift={(0.2,1.2)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[circle,solid] (a) at (0,0)     {};
+                \node[circle,solid] (b) at (-1,-1.5) {};
+                \node[circle,solid] (c) at ( 1,-1.5) {};
+                \node[circle,solid] (d) at (0,-3)     {};
+                \node[circle,solid] (e) at (2,-3) {};
+                \node[rectangle,solid] (true) at (0,-5) {};
+                \node[rectangle,solid] (false) at (2,-5) {};
+
+                \draw[-] (a) edge (b);
+                \draw[-,densely dotted] (a) edge (c);
+                \draw[-] (c) edge (d);
+                \draw[-,densely dotted] (c) edge (e);
+                \draw[-,bend right=20] (b) edge (true);
+                \draw[-,densely dotted,bend left=20] (b) edge (false);
+                \draw[-] (d) edge (true);
+                \draw[-,densely dotted] (d) edge (false);
+                \draw[-] (e) edge (true);
+                \draw[-,densely dotted] (e) edge (false);
+            \end{scope}
+        \end{scope}
+
+        % third BDD
+        \begin{scope}[shift={(21,-2)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd2) at (0,0)     {};
+
+            \textnode[rotate=90] (bddnlabel) at (1.2,0) {\small\verb+.n.bdd+};
+            \textnode[] (bddntag) at (-0.5,0) {\verb+...+};
+
+
+        \end{scope}
+
+
+        \begin{scope}[every node/.style={
+                rotate=45,
+                draw=none,
+                anchor=west,
+                align=left}]
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (bn) -- (8,0);
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (partitionedbn) -- (8,-5);
+            \usetikzlibrary{calc}
+
+
+        \end{scope}
+
+\end{tikzpicture}
+\endgroup
+\end{minipage}
