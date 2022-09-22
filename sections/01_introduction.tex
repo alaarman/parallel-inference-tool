@@ -3,25 +3,24 @@
 \section{Introduction}
 \label{sec:introduction}
 
+Hazard and safety analysis are important tools to mitigate risks and prevent disaster in many industries. The complicated interactions between industrial processes and production chains are often modeled in fault trees and Bayesian networks, which enable reasoning under uncertainty.
+Many reasoning tasks are however hard and occur frequently. To remedy this problem, knowledge compilation aims to find a concise representation that enables fast queries on the same model.
 
-\todo[inline]{
-A motivation as to why the tool is interesting and significant should be provided. Further, the paper should describe aspects such as, for example, the assumptions about application domain and/or extent of potential generality, demonstrate the tool workflow(s), explain integration and/or human interaction, evaluate the overall role and the impact to the development process.
-}
+For this purpose, many representation languages~\cite{darwiche2002knowledge,fargier2014knowledge,darwiche2002logical,darwiche2001decomposable,darwiche2011sdd,tafertshofer1997factored,sanner2005affine} have een studied analytically and in practice, demonstrating a clear tradeoff between the succinctness of the language ---with often exponential separations--- and the tractability of important operations on them. These operations can roughly be divided into manipulations operations and queries. The latter play an important role in the compilation step, which builds the knowledge base, while the former is used to query it. For this reason, the budget for manipulation operations is often greater, since this step needs to happen only once.
 
-
-Pro's
-
-- uses a fully symbolic (WPBDD) encoding, avoiding numerical instability in real-based DDs
-
-- can handle any network?
-
-- Does parallel inference (unique?)
-
-- The compositional approach through partitioning offers various advantages. In the first place, it can reduce the effort spent on compilation because the decomposition of a propositional theory is known to yield smaller symbolic representations, which has previously been shown in model checking~\cite{narayan1996partitioned,sahoo2004partitioning,grumberg2006work} and is confirmed by our experiments (which show orders of magnitudes improvement in Table X.
+To the best of our knowledge\todo{please check me on this}, \toolname is the first parallel knowledge compilation and inference tool for Bayesian networks. It compiles networks into the weighted-positive binary decision diagram (WPBDD). Our chosen parallelization approach through partitioning can reduce the effort spent on compilation because the decomposition of a propositional theory is known to yield smaller symbolic representations, which has previously been shown in model checking~\cite{narayan1996partitioned,sahoo2004partitioning,grumberg2006work} and is confirmed by experiments~\cite{dal2018parallel}. 
+ This improvement is offset by a potential increase in the time spent on inference, although our experiments still demonstrate good performance due to the smaller representations.
+ 	In earlier work, we also demonstrated that the parallelization approach is independent, by using it for four different target representations~\cite{dal2018parallel}.
+ 
+The performance of \toolname compares favorably~\cite{dal2018parallel} against other knowledge compilers, like  SDD\footnote{Available at \url{http://reasoning.cs.ucla.edu/sdd}}, CUDD\footnote{Available at \url{http://vlsi.colorado.edu/~fabio}} and ACE\footnote{Available at \url{http://reasoning.cs.ucla.edu/ace}}, which target SDD~\cite{darwiche2011sdd}, OBDD~\cite{bryant1986graph} and d-DNNF~\cite{darwiche2002knowledge}, respectively.
+The scalability of the tool is good for larger networks and for both compilation and inference, exhibiting tenfold and better speedups on 96 cores. 
 
 
-Con's 
 
-- This benefit of partitioning in compilation is offset by a potential increase in the time spent on inference, although our experiments still demonstrate good performance due to the smaller representations.
 
--  ?
+
+%\todo[inline]{
+%A motivation as to why the tool is interesting and significant should be provided. Further, the paper should describe aspects such as, for example, the assumptions about application domain and/or extent of potential generality, demonstrate the tool workflow(s), explain integration and/or human interaction, evaluate the overall role and the impact to the development process.
+%}
+
+
