@@ -1,16 +1,42 @@
 %!TEX root = main.tex
 
-\section{Parallel Compilation and Inference}
-\label{secjjparallel}
+\section{Parallel Compilation and Inference}\label{sec:parallel}
+
+
+Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. The size of the factorization has direct implications toward the cost of reasoning, i.e., probabilitic inference. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{boutilier1996context,friedman1998learning,zhang1996exploiting}. A prominent way of achieving this is by using Boolean algebra to find a more concise and canonical representation, such as a Binary Decision Diagrams (BDD). Compiling a BN into a BDD-like representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation.
 
 \begin{figure}[!t]
     \centering
-    \scalebox{0.6}{
+    \scalebox{0.9}{
         \input{figures/overview.tex}
     }
     \caption{The compositional framework.}
     \label{fig:frameworkoverview}
 \end{figure}
+
+
+Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind achieving probablistic inference, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections.
+
+\subsection{Compilation}
+
+We first describe compilation as being all steps required to obtain a BDD. In addition to traditional compilation, we introduce partitioning to further improve overall performance~\cite{dal2017reducing}.
+
+A partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly used to indicate the complexity of BNs~\cite{bollig2014width}. With the partitioning in hand, the following steps can be performed independently, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}. Each partition is considered an independent BN from this point on.
+
+BNs are defined over multi-valued domains. Prior to compiling it to a BDD, we require an encoding to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this. We chooses to first translate a BN into a satisfiability (SAT) instance in Conjunctive Normal Form (CNF) with dedicated variables to represent probabilities~\cite{chavira2008probabilistic,dal2017wpbdd} (in this step we do not need to introduce extra variables as e.g. a Tseitin transformation would).
+
+The obtained SAT instance serves as an entry point into the field of language compilers~\cite{dudek2020addmc}. These compilers target different variations of BDDs. The process of compiling a SAT instance to a respective BDD using one such compiler is by far the most expensive operation of the entire process. Performance is primarily determined by this step, while inference if mich cheaper.
+
+With monolithic compilation, we would only be able to amortize cost of compilation by performing many inference queries. With partitioned compilation, we shift some of this cost over to the inference side, yielding overall performance improvements in cases where we would traditionally not be able to achieve sufficient amortization~\cite{dal2017reducing}. We have now reached the end of the compilation part as indicated by Figure~\ref{fig:frameworkoverview}.
+
+\subsection{Inference}
+
+After compilation we arrive at the inference step. The upside of getting this far, is that the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}. Inference is performed by traversing the target representation whilst evaluating the underlying arithmetic formula. The arithmetic formula is different for every target representation, but generally we can convert a logical OR to addition, logical AND to multiplication, and substitute variables with the value or probability they represent. All that is left, is to evaluate this formula in order to obtain the marginal probability we seek. In short, this is inference by \emph{Weighted Model Counting} (WMC)~\cite{chavira2008probabilistic}.
+
+In case we chose to partition the BN during the compilation step, we have to compose the compiled BDDs and create a monolithic representation. A partition's representation is connected to another of they share a common variable. This implies that the order in which we traverse partitions is not a total ordering, it is partial. It can be represented by a tree, we suitably refer to as a composition-tree~\cite{dal2021compositional}. The order in which we choose to traverse partitions determines how they are connected. As we traverse one partition, its sink is connected to the next partition's root. Now that all partitions form one connected component, we can proceed as previous described with a traversal we are already familier with from WMC.
+
+
+\section{\toolname}
 
 \begin{figure}[!t]
     \centering
@@ -20,19 +46,24 @@
 \end{figure}
 
 
-Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. The size of the factorization has direct implications toward the cost of reasoning, i.e., probabilitic inference. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{boutilier1996context,friedman1998learning,zhang1996exploiting}.
+Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes.
 
-% Let's back up for a moment, by describing the means to this end.
-AS BNs are defined over multi-valued domains, to encode the probability distribution it represents, we require an encoding  to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this, but \toolname chooses to first translate a BN into a satisfiability (SAT) instance in Conjunctive Normal Form (CNF) with dedicated variables to represent probabilities~\cite{dal2017wpbdd} (in this step we do not need to introduce extra variables as e.g. a Tseitin transformation would).
+A partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly use to indicate the complexity of BNs~\cite{bollig2014width}.
 
-The SAT instance serves as an entry point for compilers that create various kinds of (Binary) Decision Diagram (BDD)~\cite{dudek2020addmc}. Compiling a BN into a BDD-like representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation. The \toolname compiler however specifically targets \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), which is a dedicated representation for this purpose. (We discuss differences with other representations in Section~\ref{sec:conclusion}.)
-	In addition, the compiler introduces a partitioning to further improve overall performance.
+ using \emph{simulated annealing}
 
-Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes. \toolname implements WMC in two major parts: \emph{compilation} and \emph{inference}. Let's dive into the compilation part. Given a user provided number of partitions, a partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partitions tree-width using \emph{simulated annealing}. Tree-width is a metric commonly use to indicate the complexity of BNs~\cite{bollig2014width}.
 
-With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}. Each partition is considered an independent BN from this point on. The BN is encoded as a Boolean formula as previously mentioned~\cite{chavira2008probabilistic}. \toolname takes this Boolean formula and compiles it to a WPBDD. The most expensive operation amongst them all. Performance is primarily determined by this step. We have now reached the end of the compilation part as indicated by Figure~\ref{fig:frameworkoverview}, yielding a WPBDD per partition.
+ The \toolname compiler however specifically targets \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), which is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.) In addition, the compiler introduces a partitioning to further improve overall performance~\cite{dal2017reducing}.
 
-We arrive at the inference part of \toolname. The upside of getting this far, is the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD. Inference is performed by traversing the target representation whilst evaluating the underlying arithmetic formula. The arithmetic formula is different for every target representation, but generally we can convert a logical OR to addition, logical AND to multiplication, and substitute variables with the value or probability they represent. All that is left, is to evaluate this formula in order to obtain the marginal probability we seek.
 
-In case we chose to partition the BN, we compose the obtained WPBDDs and create a monolithic WPBDD. A partition is connected to another of they share a common variable. This implies that order in which we traverse partitions is not a total ordering. It is partial, and can be represented by a tree.The order in which we choose to traverse partitions determines how they are connected. As we traverse one partition, its sink is connected to the next partitions root.
+\toolname takes this Boolean formula and compiles it to a WPBDD.          , yielding a WPBDD per partition
+
+
+is that the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD.
+
+
+
+With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
+
+
 
