@@ -20,9 +20,7 @@
     \label{fig:implementation}
 \end{figure}
 
-Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{zhang1996exploiting,boutilier1996context,friedman1998learning}.
 
-\toolname implements inference through \emph{weighted model counting} (WMC). The goal of inference by WMC is reducing size and reasoning requirements by exploiting unused independencies, in order to perform inference more efficiently. We encode probability distributions as Boolean functions into a succinct representation language.
 % Let's back up for a moment, by describing the means to this end.
 AS BNs are defined over multi-valued domains, to encode the probability distribution it represents, we require an encoding is to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this, but \toolname chooses to first translate a BN into a satisfiability (SAT) instance in Conjunctive Normal Form (CNF) with dedicated variables to represent probabilities~\cite{dal2017wpbdd} (in this step we do not need to introduce extra variables as e.g. a Tseitin transformation would).
 
