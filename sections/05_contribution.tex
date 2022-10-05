@@ -38,6 +38,8 @@ In case we chose to partition the BN during the compilation step, we have to com
 
 \section{\toolname}
 
+We present \toolname in Figure~\ref{fig:implementation}. It implements the principles outlined in Figure~\ref{fig:frameworkoverview} and Section~\ref{sec:parallel}. \toolname is a collection of two applications written in C++. The compilation step is implemented by the \verb+COMPILER+, whereas the inference step is implemented by the \verb+INFERENCE ENGINE+. We will proceed to discuss their internal processes in the following sections.
+
 \begin{figure}[!t]
     \centering
     \input{figures/implementation.tex}
@@ -45,25 +47,14 @@ In case we chose to partition the BN during the compilation step, we have to com
     \label{fig:implementation}
 \end{figure}
 
+\subsection{The \texttt{COMPILER}}
 
-%Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes.
-%
-%A partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly use to indicate the complexity of BNs~\cite{bollig2014width}.
-%
-% using \emph{simulated annealing}
-%
-%
-% The \toolname compiler however specifically targets \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), which is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.) In addition, the compiler introduces a partitioning to further improve overall performance~\cite{dal2017reducing}.
-%
-%
-%\toolname takes this Boolean formula and compiles it to a WPBDD.          , yielding a WPBDD per partition
-%
-%
-%is that the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD.
-%
-%
-%
-%With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
-%
+The \verb+COMPILER+ takes as input a BN encoded in the HUGIN format~\cite{madsen2003hugin}. The compiler is responsible for creating a decision diagram from the provided BN. The principles outlined in Section~\ref{sec:parallel} provide an orthogonal framework with regard to the target representation. However, \toolname chooses to target \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), because it is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.)
+
+The \texttt{COMPILER} can introduce a partitioning to further improve overall performance~\cite{dal2017reducing}. With a user provided number of partitions, a partitioning is found for the BN. Using simulated annealing, this partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly used to indicate the complexity of BNs~\cite{bollig2014width}. Optionally, a partitioning can also be provided by the user. With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
+
+Compilation is critically dependent upon a good variable ordering. The size of the resulting WPBDD (or any type of BDD) is determined by it. The \texttt{COMPILER} can optionally be provided with a variable ordering as input. When not provided by one, an ordering is created automatically using the min-hill heuristic. Further refinement can be attained when the user requires it. It is achieved by minimizing the tree-width of candidate orderings, using simulated annealing.
 
 
+\subsection{The \texttt{INFERENCE ENGINE}}
+...\todo{todo}
