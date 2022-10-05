@@ -1,6 +1,6 @@
 %!TEX root = main.tex
 
-\section{Parallel Compilation and Inference}\label{sec:parallel}
+\section{Probabilistic Inference using Decision Diagrams}\label{sec:parallel}
 
 
 Bayesian networks represent concise factorizations of a probability distribution by using conditional independence assumptions. The size of the factorization has direct implications toward the cost of reasoning, i.e., probabilitic inference. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{boutilier1996context,friedman1998learning,zhang1996exploiting}. A prominent way of achieving this is by using Boolean algebra to find a more concise and canonical representation, such as a Binary Decision Diagrams (BDD). Compiling a BN into a BDD-like representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation.
@@ -15,7 +15,7 @@ Bayesian networks represent concise factorizations of a probability distribution
 \end{figure}
 
 
-Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind achieving probablistic inference, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections.
+Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind probablistic inference using BDDs, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections without going into too much detail. In-depth descriptions can be found in~\cite{dal2021compositional}.
 
 \subsection{Compilation}
 
@@ -46,24 +46,24 @@ In case we chose to partition the BN during the compilation step, we have to com
 \end{figure}
 
 
-Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes.
-
-A partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly use to indicate the complexity of BNs~\cite{bollig2014width}.
-
- using \emph{simulated annealing}
-
-
- The \toolname compiler however specifically targets \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), which is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.) In addition, the compiler introduces a partitioning to further improve overall performance~\cite{dal2017reducing}.
-
-
-\toolname takes this Boolean formula and compiles it to a WPBDD.          , yielding a WPBDD per partition
-
-
-is that the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD.
-
-
-
-With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
-
+%Figure~\ref{fig:frameworkoverview} shows a high level overview of the tool's internal processes.
+%
+%A partitioning is found for the BN. This partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly use to indicate the complexity of BNs~\cite{bollig2014width}.
+%
+% using \emph{simulated annealing}
+%
+%
+% The \toolname compiler however specifically targets \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), which is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.) In addition, the compiler introduces a partitioning to further improve overall performance~\cite{dal2017reducing}.
+%
+%
+%\toolname takes this Boolean formula and compiles it to a WPBDD.          , yielding a WPBDD per partition
+%
+%
+%is that the computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}, in our case a WPBDD.
+%
+%
+%
+%With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
+%
 
 
