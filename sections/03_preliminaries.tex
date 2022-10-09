@@ -3,6 +3,24 @@
 \section{Background}
 \label{sec:background}
 
-\todo[inline]{
-Let's avoid definitions and discuss differences with other tools informally.
-} 
+A Bayesian network (BN) $\mathcal{B}$ is a probabilistic graphical model that represents a joint probability distribution over its variables. Let $X = \{X_1,\ldots,X_n\}$ be a set of random variables. We make no distinction between singleton sets $X = \{X_1\}$ and the variable $X_1$. Values of a variable $X_1$ are denoted in lower case.
+We denote with $P(X = x)$ the probability that $(X_1,\ldots,X_n) = (x_1,\ldots,x_n)$,
+i.e. $X_i = x_i$, for $i =1,\ldots,n$.
+Let $J \subseteq \mathbb{N}$, $I \subseteq J$, be (finite) sets of indices, $X = \{X_i \mid i \in J\}$, then $X_I = \{X_i \mid i \in I, X_i \in X\}$. %
+
+\begin{definition}[Bayesian Networks]\label{def:bnfac}
+    \ULforem
+    %\newcommand{\powerset}{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}
+    A \emph{Bayesian network} $\mathcal{B} = \tuple{\mathcal{G},P}$ is a DAG $\mathcal{G} = (V,E)$, with nodes $V$ and edges $E \subseteq V \times V$, that models a factorization of joint probability distribution $P(X_V)$ defined over random variables $X_V$ as:%
+    \begin{equation}
+    P(X_V = x_V) = \prod_{v \in V}P(X_v = x_v \mid X_{\myparents(v)}= x_{\myparents(v)}),
+    \end{equation}%
+    \noindent such that there is a one-to-one correspondence between nodes $V$ and variables $X_V$, and the conditional probability distribution of $X_v \in X_V$ given its parents $X_{\myparents(v)}$ is specified as $P(X_v\ |\ X_{\myparents(v)})$.
+
+\end{definition}
+
+Posterior probabilities can be computed using well known lemmas in probability theory, like Bayes’ theorem:
+\[P(X | Y) = \frac{P(X | Y)P(Y)}{P(Y)},\]
+marginalization $P(X) = \sum_{y} P(X, Y = y)$, and the factorization property (Defintion~\ref{def:bnfac}).
+
+

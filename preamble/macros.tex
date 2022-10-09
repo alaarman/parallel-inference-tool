@@ -57,3 +57,56 @@
 \providecommand{\Assign}[2]{{#1{~:=~}#2}}
 \providecommand{\AssignState}[2]{\State \Assign{#1}{#2}}
 
+\newcommand{\myproc}[1]{\textnormal{\mymathfont#1}}
+\defmath\mywidth{\mathrm{w}}
+\defmath\myccache{CCache}
+\defmath\mytcache{TCache}
+\defmath\mypartition{\myproc{partition}}
+\defmath\mytier{\myproc{tier}}
+\defmath\mytraverse{\myproc{trav}}
+\defmath\myorder{\myproc{order}}
+\defmath\mycompile{\myproc{compile}}
+\defmath\myredun{\myproc{redun}}
+\defmath\myreverse{^{\scriptscriptstyle\scalebox{0.25}[0.7]{\( - \)}1}}
+\defmath\mymin{\scalebox{0.25}[0.7]{\( - \)}}
+
+\defmath\mycond{\textit{c}}
+\defmath\myrep{\myproc{rep}}
+\defmath\myprrep{\myproc{rep}_{\myproc{p}}}
+\defmath\myscope{\myproc{scope}}
+\defmath\myroots{\myproc{rt}}
+\defmath\myvparents{\myproc{pa}}
+\defmath\setdiff{{\backslash}}
+
+\newcommand{\mymathfont}{\sffamily}
+\newcommand{\myfunction}[2][]       {{\ensuremath{\myproc{#2}_{#1}}}}
+\newcommand{\mylinkfunction}[3][]   {{\hypersetup{hidelinks}\hyperlink{#2}{\myfunction[#1]{#3}}}}
+
+\newcommand{\mybnvar   }           {\mylinkfunction[]{func:bnvar}   {bnvar}}
+\newcommand{\mybnval   }           {\mylinkfunction[]{func:bnval}   {bnval}}
+\newcommand{\myvar     }           {\mylinkfunction[]{func:var}     {var}}
+\newcommand{\myhigh    }           {\mylinkfunction[]{func:hi}      {hi}}
+\newcommand{\mylow     }           {\mylinkfunction[]{func:lo}      {lo}}
+\newcommand{\myweights }           {\mylinkfunction[]{func:wg}      {wg}}
+\newcommand{\myprob    }           {\mylinkfunction[]{func:pr}      {pr}}
+\newcommand{\myval  }              {\mylinkfunction[]{func:va}      {val}}
+\newcommand{\myvalues  }           {\mylinkfunction[]{func:va}      {val}}
+\newcommand{\myatoms   }           {\mylinkfunction[]{func:at}      {at}}
+\newcommand{\myliterals}           {\mylinkfunction[]{func:li}      {li}}
+
+\newcommand{\mydomain}[1][]        {\mylinkfunction[] {func:domain}       {car}}
+\newcommand{\myshared}             {\mylinkfunction[]  {func:shared}      {sh}}
+\newcommand{\mycontext}[1][]       {\mylinkfunction[#1]{func:context}     {co}}
+\newcommand{\mychildren}[1][]      {\mylinkfunction[#1]{func:children}    {ch}}
+\newcommand{\myancestors}[1][]     {\mylinkfunction[#1]{func:ancestors}   {an}}
+\newcommand{\mydescendants}[1][]   {\mylinkfunction[#1]{func:descendants} {de}}
+\newcommand{\mysubgraph}[1][]      {\mylinkfunction[#1]{func:subgraph}    {su}}
+\newcommand{\myparents}[1][]       {\mylinkfunction[#1]{func:parents}     {pa}}
+\newcommand{\myfamily}[1][]        {\mylinkfunction[#1]{func:family}      {fa}}
+\newcommand{\myroot}[1][]          {\mylinkfunction[#1]{func:root}        {rt}}
+\newcommand{\mydom}[1][]          {\mylinkfunction[#1]{func:dom}      {dom}}
+
+
+
+
+
