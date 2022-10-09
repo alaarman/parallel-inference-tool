@@ -64,5 +64,6 @@ We compute this using two marginalizations, i.e., we run WMC two times. Once for
 
 Notice that each marginalization is an independent run of WMC, just with different variable instantations. A trivial optimization here is that we can run every call to WMC in \emph{parallel}. Theoretically reducing the cost of computing the posterior probabilities for all instantations of unobserved variables combined to the single WMC call that requires the most resources.
 
+To summarize, the \texttt{INFERENCE ENGINE} takes as input a BN, the compiled WPBDD(s), a variable mapping and optionally the used partitioning. If the BN was partitioned, then the WPBDDs are composed into a monolithic representation prior to WMC using an automatically created composition-tree~\cite{dal2021compositional}. Given the user's set of probabilitic queries, the corresponding marginalizations are performed in parallel. Prior to every WMC run we need to instantiate the variables in the WPBDD, reflecting the marginalization we want to achieve. Proper variable instantiations in the WPBDD are attained by useing the \texttt{COMPILER}'s variable mapping to map BN variables to WPBDD variables. Once all marginializations are obtained, conditional probabilities are computed as previously described.
 
 
