@@ -2,7 +2,6 @@
 
 \section{Probabilistic Inference using Decision Diagrams}\label{sec:parallel}
 
-
 Bayesian networks represent concise factorizations of probability distributions by using conditional independence assumptions. The size of the factorization has direct implications toward the cost of reasoning, i.e., probabilitic inference. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{boutilier1996context,friedman1998learning,zhang1996exploiting}. A prominent way of achieving this is by using Boolean algebra to find a more concise and canonical representation, such as a Binary Decision Diagram (BDD). Compiling a BN into a BDD-like representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation.
 
 \begin{figure}[!t]
@@ -15,11 +14,11 @@ Bayesian networks represent concise factorizations of probability distributions 
 \end{figure}
 
 
-Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind probablistic inference using BDDs, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections without going into too much detail. In-depth descriptions can be found in~\cite{dal2021compositional}.
+Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind probablistic inference using BDDs, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections without going into too much detail. In-depth descriptions can be found in~\cite{dal2017reducing,dal2021compositional}.
 
 \subsection{Compilation}
 
-We first describe compilation as being all steps required to obtain a BDD. In addition to traditional compilation, we introduce partitioning to further improve overall performance~\cite{dal2017reducing}. A partitioning is found that decomposes the BN into independent components. With the partitioning in hand, the following steps can be performed independently, per partition. Theoretically, compilation becomes as fast as the slowest compiling partition~\cite{dal2018parallel}. Each partition is considered an independent BN from this point on.
+We first describe compilation as being all steps required to obtain a BDD. In addition to traditional compilation, we introduce partitioning to further improve overall performance~\cite{dal2017reducing,dal2021compositional}. A partitioning is found that decomposes the BN into independent components. With the partitioning in hand, the following steps can be performed independently, per partition. Theoretically, compilation becomes as fast as the slowest compiling partition~\cite{dal2018parallel}. Each partition is considered an independent BN from this point on.
 
 BNs are defined over multi-valued domains. Prior to compiling it to a BDD, we require an encoding to transition from the multi-valued domain to the Boolean domain. There are multiple ways to do this. We chooses to first translate a BN into a satisfiability (SAT) instance in Conjunctive Normal Form (CNF) with dedicated variables to represent probabilities~\cite{chavira2008probabilistic,dal2017wpbdd} (in this step we do not need to introduce extra variables as e.g. a Tseitin transformation would).
 
@@ -33,10 +32,10 @@ After compilation we arrive at the inference step. The upside of getting this fa
 
 In case we chose to partition the BN during the compilation step, we have to compose the compiled BDDs and create a monolithic representation. A partition's representation should be connected to another of they share a common variable. This implies that the order in which we traverse partitions is not a total ordering, it is partial. It can be represented by a tree, we suitably refer to as a composition-tree~\cite{dal2021compositional}. The order in which we choose to traverse partitions (combined with common variable relations) determines how they are connected. As we traverse one partition, its sink is connected to the next partition's root. Now that all partitions form one connected component, we can proceed as previously described with a traversal we are already familier with from WMC.
 
-
 \section{\toolname}
 
-We present \toolname in Figure~\ref{fig:implementation}. It implements the principles outlined in Figure~\ref{fig:frameworkoverview} and Section~\ref{sec:parallel}. \toolname is a collection of two applications written in C++. The compilation step is implemented by the \verb+COMPILER+, whereas the inference step is implemented by the \verb+INFERENCE ENGINE+. We will proceed to discuss their internal processes in the following sections.
+We present \toolname in Figure~\ref{fig:implementation}. It implements the principles outlined in Figure~\ref{fig:frameworkoverview} and Section~\ref{sec:parallel}. \toolname is a collection of two applications written in C++. The compilation step is implemented by the \verb+COMPILER+, whereas the inference step is implemented by the \verb+INFERENCE ENGINE+. We provide an high level view on the implementations in the following sections.
+In-depth descriptions on the used partitioning technique are provided in~\cite{dal2017reducing,dal2021compositional}, and how the created independencies are exploited through parallelism in~\cite{dal2018parallel}.
 
 \begin{figure}[!t]
     \centering
@@ -47,7 +46,7 @@ We present \toolname in Figure~\ref{fig:implementation}. It implements the princ
 
 \subsection{The \texttt{COMPILER}}
 
-The \verb+COMPILER+ takes as input a BN encoded in the HUGIN format~\cite{madsen2003hugin}. The compiler is responsible for creating a decision diagram from the provided BN. The principles outlined in Section~\ref{sec:parallel} provide an orthogonal framework with regard to the target representation. However, \toolname chooses to target \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), because it is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.)
+The \verb+COMPILER+ takes as input a BN encoded in the HUGIN format~\cite{madsen2003hugin}. The compiler is responsible for creating a decision diagram from the provided BN. The principles outlined in Section~\ref{sec:parallel} provide an orthogonal framework with regard to the target representation. However, \toolname chooses to target \emph{Weighted Positive Binary Decision Diagrams} (WPBDD) because it is a dedicated representation for probabilistic inference~\cite{dal2017wpbdd}. (We discuss differences with other representations in Section~\ref{sec:conclusion}.)
 
 The \texttt{COMPILER} can introduce a partitioning to further improve overall performance~\cite{dal2017reducing}. With a user provided number of partitions, a partitioning is found for the BN. Using simulated annealing, this partitioning is optimized by minimizing the sum of each partition's tree-width. Tree-width is a metric commonly used to indicate the complexity of BNs~\cite{bollig2014width}. Optionally, a partitioning can also be provided by the user. With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
 
@@ -61,6 +60,8 @@ In its core, the \texttt{INFERENCE ENGINE} is able to perform probabilitic infer
 We compute this using two marginalizations, i.e., we run WMC two times. Once for $P(X = x, E = e)$ and once for $P(E = e)$. Now let's say that we want to know the posterior probabilities for every one of $X$'s $n$ values. Implementing this na\"ively would result in $2$ marginalizations for each value, i.e., $2n$ marginalizations. We reduce this by reusing the divisor for every computation, as it is unchanging. The divisor $P(E = e)$ is computed once, whereas the dinominator $P(X = x, E = e)$ is adjusted for every value. This results in $n + 1$ marginalizations. To further reduce this, we also use the fact that marginalizing over $X$ sums to $1$. In other words, we only need to compute the posteriors for $n-1$ values. The posterior probability of the last value can be obtained by substracting the sum of the previous marginalizations from $1$. We therefore arive at a total of $(n-1) + 1$ marginalizations, i.e., we only need $n$ marginalizations to compute every posterior for variable $X$.
 
 Notice that each marginalization is an independent run of WMC, just with different variable instantations. A trivial optimization here is that we can run every call to WMC in \emph{parallel}. Theoretically reducing the cost of computing the posterior probabilities for all instantations of unobserved variables combined to the single WMC call that requires the most resources.
-\todo {describe that an individual WMC run is also parallelized}
+
+Parallelism is notoriously difficult to exploit in sparce graphs such as BNs~\cite{dal2014fast}. Introducing a partitioining during the compilation step can achieve the required independence such that parallelism can be exploited at the level of individual WMC runs~\cite{dal2017reducing}. Compiled partitions are composed using a composition-tree. This tree is the structure by which we traverse each partition's corresponding WPBDD~\cite{dal2021compositional}. The independence among a parent's children in the composition-tree can be used to run WMC in those parts in parallel, i.e., independent sub-trees can run in parallel~\cite{dal2018parallel}.
 
 To summarize, the \texttt{INFERENCE ENGINE} takes as input a BN, the compiled WPBDD(s), a variable mapping and optionally the used partitioning. If the BN was partitioned, then the WPBDDs are composed into a monolithic representation prior to WMC using an automatically created composition-tree~\cite{dal2021compositional}. Given the user's set of probabilitic queries, the corresponding marginalizations are performed in parallel. Prior to every WMC run we need to instantiate the variables in the WPBDD, reflecting the marginalization we want to achieve. Proper variable instantiations in the WPBDD are attained by useing the \texttt{COMPILER}'s variable mapping to map BN variables to WPBDD variables. Once all marginializations are obtained, conditional probabilities are computed as previously described.
+
