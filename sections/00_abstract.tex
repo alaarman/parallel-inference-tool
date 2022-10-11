@@ -5,12 +5,8 @@
 %AL: in intro
 In the knowledge compilation step, the input Bayesian network is \emph{encoded} as propositional logic and then \emph{compiled} into a knowledge base in decision diagram representation. The tool supports various diagram formats, including the Weighted-Positive Binary Decision Diagram (WPBDD) which can concisely represent discrete probability distributions.
 %\todo{Not sure how much we should emphasize the WPBDD. If we do we should probably complain about numerical instability of AADDs}
-Once compiled, the probabilistic knowledge base can be queried with any inference query.
+Once compiled, the probabilistic knowledge base can be queried in the inference step.
 To efficiently implement both steps, \toolname uses simulated annealing to split the knowledge base into a number of partitions. This further reduces the decision diagram size and crucially enables parallelism in both the compilation and the inference steps.
 Experiments demonstrated that this partitioned approach, in combination with the WPBDD representation, can outperform other approaches\todo{which} in the knowledge compilation step, at the cost of slightly more expensive inference queries.
 Additionally, the tool attains 15-fold parallel speedups using 64 cores, .\todo{quantify}
-
-
-
-
 
