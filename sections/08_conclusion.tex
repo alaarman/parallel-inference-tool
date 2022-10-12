@@ -3,7 +3,7 @@
 \section{Discussion}
 \label{sec:conclusion}
 
-\toolname shows that parallelism can benefit knowledge compilation and inference of Bayesian networks. Our chosen approach parallelization approach is based on partitioning, an approach that has previously been exploited to speed up symbolic model checking~\cite{grumberg2006work,narayan1996partitioned,sahoo2004partitioning}.  We additionally find that the partitioning introduces a tradeoff between compilation times and inference times, sacrificing some performance in inference to gain parallel scalability.
+\toolname shows that parallelism can benefit knowledge compilation and inference for Bayesian networks. Our chosen approach parallelization approach is based on partitioning, an approach that has previously been exploited to speed up symbolic model checking~\cite{grumberg2006work,narayan1996partitioned,sahoo2004partitioning}.  We additionally find that the partitioning introduces a tradeoff between compilation times and inference times, sacrificing some performance in inference to gain parallel scalability.
 
 
 \todo[inline]{
@@ -11,7 +11,7 @@ Give table comparing to other tools
 }
 
 
-The parallization approach of \toolname is orthogonal to the chosen target representation of the knowledge base, which we demonstrated by using it for four different target representations~\cite{dal2018parallel}. As a consequence, the approach is to a certain extent orthogonal to the exploitation of local structure by those representations as local structure can still be exploited within the partitioned subproblems. For instance, we showed that causal dependence is fully exploited when using decision diagram representations in the partitions.
+The parallization approach of \toolname is orthogonal to the chosen target representation of the knowledge base, which we demonstrated by using it for four different target representations~\cite{dal2018parallel}. As a consequence, the approach is to a certain extent orthogonal to the exploitation of local structure~\cite{chavira2005compiling} by those representations as local structure can still be exploited within the partitioned subproblems.\todo{sounds like we loose some? I remember concluding that ewe didn't because the compositional approach is similar to the DD structure, but perhaps this doesn't hold for all representations?} For instance, we showed that causal dependence is fully exploited when using decision diagram representations in the partitions.\todo{references}
 
 
 For target representations, many choices exist~\cite{darwiche2001decomposable,darwiche2011sdd,darwiche2002knowledge,fargier2014knowledge}. Since our partitioning technique exploits the treewidth~\cite{dechter1998bucket} of the representation~\cite[\S 5]{dal2021compositional}, and the algorithms are based on message passing~\cite[\S 4]{dal2021compositional}, other representations like ADD and d-DNNF can be parallelized alike. While our earlier work~\cite{dal2018parallel} compared the performance of \toolname against various of these other representations, showing competitive performance, here we will point out some differences between the other representations and suggest future work.
@@ -19,7 +19,7 @@ For target representations, many choices exist~\cite{darwiche2001decomposable,da
 
 Like AADD~\cite{sanner2005affine}, and its similar cousins SLDD~\cite{wilson2005decision}, QMDD~\cite{miller2006qmdd} and FEVBDD~\cite{tafertshofer1997factored}, our target representation WPBDD factors out probabilities on the edges of the diagram, resulting in more succinctness than for instance achieved with ADD~\cite{bahar}, QuiDD~\cite{viamontes2003improving} and MTDD~\cite{Clarke2001}. However, unlike AADD, it only factors according to the structure of the Bayesian network, which sacrifices succinctness but ensures exact representation of the floating point numbers. The latter can be quite important in practice, as rounding errors from manipulation operations can quickly propagate in the discrete data structure, resulting in numerical instability~\cite{zulehner2019efficiently}.
 
-The effects of different variable orders is known to be crucial in many representation languages. Representations like FBDD~\cite{darwiche2002knowledge} and SDD~\cite{darwiche2011sdd}, allow more freedom in the order and could potentially improve the results of \toolname.\todo{we compare already favoray with sdd?}
+The effects of different variable orders is known to be crucial in many representation languages. Representations like FBDD~\cite{wegener2000branching}, d-DNNF~\cite{chavira2006compiling} and SDD~\cite{darwiche2011sdd}, allow more freedom in the order and could potentially improve the results of \toolname.\todo{we compare already favoray with sdd?}
 
 Early versions of \toolname also tried different parallelization approaches, like the fine-grained task-based scheduling of Sylvan~\cite{van2013multi}, which has shown that good parallel scalability is possible for model checking problems in BDDs, ADDs (also called Multi-Terminal DDs), and MDDs (Sylvan uses a version called List DD~\cite{sylvan-journal}). In future work, we hope to establish why this approach did not yield good performance for knowledge compilation as well.
 
