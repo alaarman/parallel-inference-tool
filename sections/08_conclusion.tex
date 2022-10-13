@@ -4,13 +4,8 @@
 \label{sec:conclusion}
 
 \toolname shows that parallelism can benefit knowledge compilation and inference for Bayesian networks. Our chosen parallelization approach is based on partitioning. An approach that has previously been exploited to speed up symbolic model checking~\cite{sylvan-journal,narayan1996partitioned,sahoo2004partitioning}.  We additionally find that the partitioning introduces a tradeoff between compilation times and inference times, sacrificing some performance in inference to gain parallel scalability.
-t
+
 The computational complexity of inference is linear in the size of the target representation~\cite{darwiche2002knowledge}. However, it increases when partitioning is employed. A compiled partition in a composition-tree must be exponentially traversed in the size of the cutset that separates it from its parent. Once for every instantiation of the cutset variables. However, this is compensated by a number of principles. $(1)$ the combined size of all partition BDDs is significantly reduced compared to the monolithically compiled BDD~\cite{dal2017reducing}; $(2)$ partition BDDs only represent a portion of its total, reducing traversal resources; $(3)$ each child instantiation can be traversed in parallel, potentially reducing traversal cost of exponential traversals to the cost of 1~\cite{dal2021compositional}; $(4)$ as partition BDDs are small, cache locality start to play an important role, giving an advantage over monolithic BDDs~\cite{dal2018parallel}. Beyond the complexity introduced by cutsets, inference remains linear. Small cutsets can therefore play a crucial role in performance. Separate empirical investigations on partitioning and parallelism show their respective contribution to \toolname's performance~\cite{dal2018parallel,dal2021compositional}.
-
-
-\todo[inline]{
-Discuss other tools in more detail (ACE, dlib, etc)
-}
 
 The parallelization approach of \toolname is orthogonal to the chosen target representation of the knowledge base, which we demonstrated by using it for four different target representations~\cite{dal2018parallel}. As a consequence, the approach is to a certain extent orthogonal to the exploitation of local structure~\cite{shih2019compiling} by those representations, as local structure can still be exploited within the partitioned subproblems. For instance, we showed that causal dependence is fully exploited when using decision diagram representations in the partitions.\todo{references}
 
