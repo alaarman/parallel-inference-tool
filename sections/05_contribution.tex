@@ -49,7 +49,7 @@ In-depth descriptions on the used partitioning technique are provided in~\cite{d
     \label{fig:implementation}
 \end{figure}
 
-\subsection{The \compiler}
+\subsection{The \texttt{COMPILER}}
 
 As shown in Figure~\ref{fig:implementation}, the \compiler takes as input a BN encoded in the HUGIN format~\cite{madsen2003hugin}. The compiler is responsible for creating a decision diagram from the provided BN, and writes these to output files. The principles outlined in Section~\ref{sec:parallel} provide an orthogonal framework with regard to the target representation. However, \toolname chooses to target \emph{Weighted Positive Binary Decision Diagrams} (WPBDD), because it is a dedicated representation for probabilistic inference. (We discuss differences with other representations in Section~\ref{sec:conclusion}.)
 
@@ -57,7 +57,7 @@ The \compiler can introduce a partitioning to further improve overall performanc
 
 Compilation is critically dependent upon a good variable ordering. The size of the resulting WPBDD (or any other ordered DD) is determined by it. The \compiler can optionally be provided with a variable ordering as input. When not provided by one, an ordering is created automatically using the min-fill heuristic. Further refinement can be attained when the user requires it. It is achieved by minimizing the tree-width of candidate orderings, using simulated annealing.
 
-\subsection{The \engine}
+\subsection{The \texttt{INFERENCE ENGINE}}
 
 The \engine takes as input a BN, probabilistic queries and the \compiler's output (Figure~\ref{fig:implementation}). In its core, the \engine is able to perform probabilistic inference through marginalization. It does so using WMC (Section~\ref{subsec:inference}. Given a user provided set of probabilistic queries, the corresponding marginalizations are performed. Prior to every WMC run we need to instantiate the variables in the WPBDD, reflecting the marginalization we want to achieve. Proper variable instantiations in the WPBDD are attained by using the \compiler's variable mapping to map BN variables to WPBDD variables.
 
