@@ -55,7 +55,7 @@ As shown in Figure~\ref{fig:implementation}, the \compiler takes as input a BN e
 
 The \compiler can introduce a partitioning to further improve overall performance~\cite{dal2017reducing}. With a user-provided number of partitions, a partitioning is found for the BN. Using simulated annealing, this partitioning is optimized by minimizing the sum of the  tree-width of all partitions. Tree-width is a metric commonly used to indicate the complexity of BNs~\cite{chen2022definition}. Optionally, a partitioning can also be provided by the user. With the partitioning in hand, the following steps can be performed in parallel, per partition. Theoretically, compilation is as fast as the slowest compiling partition~\cite{dal2018parallel}.
 
-Compilation is critically dependent upon a good variable ordering. The size of the resulting WPBDD (or any other ordered DD) is determined by it. The \compiler can optionally be provided with a variable ordering as input. When not provided by one, an ordering is created automatically using the min-fill heuristic. Further refinement can be attained when the user requires it. It is achieved by minimizing the tree-width of candidate orderings, using simulated annealing.
+Compilation is critically dependent upon a good variable ordering. The size of the resulting WPBDD (or any other ordered DD) is determined by it. The \compiler can optionally be provided with a variable ordering as input. When not provided by one, an ordering is created automatically using the min-fill heuristic~\cite{chavira2008probabilistic}. Further refinement can be attained when the user requires it. It is achieved by minimizing the tree-width of candidate orderings, using simulated annealing.
 
 \subsection{The \texttt{INFERENCE ENGINE}}
 
