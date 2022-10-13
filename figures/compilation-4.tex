@@ -1,0 +1,26 @@
+\begin{tikzpicture}[mytikzbddoptions]
+
+    % nodes
+    \node (a1) at (0,-3)     {$a_1$};
+    \node (a3) at (3,-6) {$a_3$};
+    \node (b1) at (0,-9)  {$b_1$};
+    \node (b12) at (3,-9)  {$b_1$};
+    \node (b22) at (3,-12)  {$b_2$};
+
+    \terminalnode (false) at (3,-15) {$0$};
+    \terminalnode (true) at (0,-15)   {$1$};
+
+    % edges
+    \draw[dotted] (a1) edge (a3);
+    \draw[dotted,in=50,out=-65] (a3) edge (false);
+    \draw[bend right=10,dotted] (b1) edge (false);
+    \draw[dotted] (b12) edge (b22);
+    \draw[dotted] (b22) edge (false);
+
+    \draw  (a1)   edge (b1);
+    \draw  (a3)   edge  (b12);
+    \draw  (b1)   edge node[draw=none,midway,left]  {\mytikzsmallfontsize{$0.5$}}  (true);
+    \draw[bend left=33]  (b12)  edge (false);
+    \draw  (b22)  edge  (true);
+\end{tikzpicture}
+

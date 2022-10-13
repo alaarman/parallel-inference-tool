@@ -4,10 +4,12 @@
 
 Bayesian networks represent concise factorizations of probability distributions by using conditional independence assumptions. The size of the factorization has direct implications toward the cost of reasoning, i.e., probabilitic inference. A more expressive model must be used to further improve a BN's factorization in order to exploit additional independences~\cite{boutilier1996context,friedman1998learning,zhang1996exploiting}. A prominent way of achieving this is by using Boolean algebra to find a more concise and canonical representation, such as a Binary Decision Diagram (BDD)~\cite{bryant1986graph}. Compiling a BN into a decision diagram (DD) representations is commonly referred to as \emph{knowledge compilation}~\cite{darwiche2002knowledge}, or simply compilation.
 
+
 \begin{figure}[!t]
     \centering
+
     \scalebox{0.9}{
-        \input{figures/overview.tex}
+    \input{figures/completeoverview.tex}
     }
     \caption{The compositional framework from \cite{dal2021compositional}.}
     \label{fig:frameworkoverview}

@@ -1,0 +1,418 @@
+\hspace{-2em}\begin{minipage}[!]{420pt}
+    \centering
+    \begingroup
+    \usetikzlibrary{fit}
+    \begin{tikzpicture}[scale=1.6*\mytikzscale,
+            every path/.style={>=latex},
+            inner sep=0pt,
+            line width=1pt,
+            thin,
+            font=\mytikznormalfontsize]
+
+        \newcommand{\myrectanglesize}{44pt}
+        \newcommand{\mynodesize}{16pt}
+        \newcommand{\mytikzlocalscale}{0.5}
+
+        \begin{scope}[shift={(-8.25,0)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bn) at (0,0)     {};
+
+
+            \begin{scope}[
+                shift={(0,0.7)},
+                scale=\mytikzlocalscale,
+                every node/.style={solid,circle,draw,minimum size=\mynodesize*\mytikzlocalscale},
+                every path/.style={>=latex,->},
+                ]
+                \node (a) at (0,0)     {};
+                \node (b) at (-2,-2.5) {};
+                \node (c) at ( 2,-2.5) {};
+                \draw (a) edge (b);
+                \draw (a) edge (c);
+            \end{scope}
+        \end{scope}
+
+        \begin{scope}[shift={(0,-5)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (partitionedbn) at (0,0)     {};
+
+            \begin{scope}[shift={(0,0.7)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[circle,solid] (a) at (0,0)     {};
+                \node[circle,solid] (b) at (-2,-2.5) {};
+                \node[circle,solid] (c) at ( 2,-2.5) {};
+                \draw[->] (a) edge (b);
+                \draw[->] (a) edge (c);
+
+                \node[inner sep=2pt,rotate fit=52,rounded corners=2pt,draw,densely dashed,fit=(a) (b)]  {};
+                \node[inner sep=2pt,rotate fit=52,rounded corners=2pt,draw,densely dashed,fit=(c)]  {};
+            \end{scope}
+        \end{scope}
+
+        \begin{scope}[shift={(-3,-10)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (component1) at (0,0)     {};
+
+            \begin{scope}[shift={(0,0.7)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[circle,solid] (a) at (0,0)     {};
+                \node[circle,solid] (b) at (-2,-2.5) {};
+                \node[draw=none] (c) at ( 2,-2.5) {};
+                \draw[->] (a) edge (b);
+
+            \end{scope}
+        \end{scope}
+
+        \begin{scope}[shift={(3,-10)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (component2) at (0,0)     {};
+
+            \begin{scope}[shift={(0,0.7)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[draw=none] (a) at (0,0)     {};
+                \node[draw=none] (b) at (-2,-2.5) {};
+                \node[circle,solid] (c) at ( 2,-2.5) {};
+
+            \end{scope}
+        \end{scope}
+        \begin{scope}[shift={(-3,-15)},every text node part/.style={align=center}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (cnf1) at (0,0)     {\scriptsize{Boolean}\\[-5pt]\scriptsize{formula}\\[-2pt] $f$};
+
+        \end{scope}
+
+        \begin{scope}[shift={(3,-15)},every text node part/.style={align=center}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (cnf2) at (0,0)     {\scriptsize{Boolean}\\[-5pt]\scriptsize{formula}\\[-2pt] $g$};
+        \end{scope}
+
+
+        \begin{scope}[shift={(-3,-20)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd1) at (0,0)     {};
+
+
+            \begin{scope}[shift={(-0.2,1.25)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                \node[circle,solid] (a) at (0,0)     {};
+                \node[circle,solid] (b) at (-1,-1.5) {};
+                \node[circle,solid] (c) at ( 1,-1.5) {};
+                \node[circle,solid] (d) at (0,-3)     {};
+                \node[circle,solid] (e) at (2,-3) {};
+                \node[rectangle,solid] (true) at (0,-5) {};
+                \node[rectangle,solid] (false) at (2,-5) {};
+
+                \draw[-] (a) edge (b);
+                \draw[-,densely dotted] (a) edge (c);
+                \draw[-] (c) edge (d);
+                \draw[-,densely dotted] (c) edge (e);
+                \draw[-,bend right=20] (b) edge (true);
+                \draw[-,densely dotted,bend left=20] (b) edge (false);
+                \draw[-] (d) edge (true);
+                \draw[-,densely dotted] (d) edge (false);
+                \draw[-] (e) edge (true);
+                \draw[-,densely dotted] (e) edge (false);
+            \end{scope}
+        \end{scope}
+
+
+        \begin{scope}[shift={(3,-20)}]
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (bdd2) at (0,0)     {};
+
+            \begin{scope}[xscale=-1,shift={(-0.5,1.6)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                %\node[circle,solid] (a) at (0,0)     {};
+                %\node[circle,solid] (b) at (-1,-1.5) {};
+                \node[circle,solid] (c) at ( 1,-1.5) {};
+                \node[circle,solid] (d) at (0,-3)     {};
+                \node[circle,solid] (e) at (2,-3) {};
+                \node[rectangle,solid] (true) at (0,-5) {};
+                \node[rectangle,solid] (false) at (2,-5) {};
+
+                %\draw[-] (a) edge (b);
+                %\draw[-,densely dotted] (a) edge (c);
+                \draw[-] (c) edge (d);
+                \draw[-,densely dotted] (c) edge (e);
+                %\draw[-,bend right=20] (b) edge (true);
+                %\draw[-,densely dotted,bend left=20] (b) edge (false);
+                \draw[-] (d) edge (true);
+                \draw[-,densely dotted] (d) edge (false);
+                \draw[-] (e) edge (true);
+                \draw[-,densely dotted] (e) edge (false);
+            \end{scope}
+        \end{scope}
+
+        \begin{scope}[shift={(0,-29)}]
+            \newcommand{\mycomposedscale}{2.9}
+            \node[draw,rectangle,rounded corners,solid,thin,minimum width=\mycomposedscale*\myrectanglesize,minimum height=\mycomposedscale*\myrectanglesize]  (composed) at (0,0)     {};
+
+            \begin{scope}[shift={(0,\mycomposedscale)}]
+                \node[draw,rectangle,rounded corners,densely dashed,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (composed1) at (0,0)     {};
+
+                \begin{scope}[shift={(-0.2,1.25)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                    \node[circle,solid] (a) at (0,0)     {};
+                    \node[circle,solid] (b) at (-1,-1.5) {};
+                    \node[circle,solid] (c) at ( 1,-1.5) {};
+                    \node[circle,solid] (d) at (0,-3)     {};
+                    \node[circle,solid] (e) at (2,-3) {};
+                    \node[rectangle,solid] (true) at (0,-5) {};
+                    \node[rectangle,solid] (false) at (2,-5) {};
+
+                    \draw[-] (a) edge (b);
+                    \draw[-,densely dotted] (a) edge (c);
+                    \draw[-] (c) edge (d);
+                    \draw[-,densely dotted] (c) edge (e);
+                    \draw[-,bend right=20] (b) edge (true);
+                    \draw[-,densely dotted,bend left=20] (b) edge (false);
+                    \draw[-] (d) edge (true);
+                    \draw[-,densely dotted] (d) edge (false);
+                    \draw[-] (e) edge (true);
+                    \draw[-,densely dotted] (e) edge (false);
+                \end{scope}
+            \end{scope}
+            \begin{scope}[shift={(\mycomposedscale,-\mycomposedscale)}]
+                \node[draw,rectangle,rounded corners,densely dashed,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (composed2) at (0,0)     {};
+
+                \begin{scope}[xscale=-1,shift={(-0.5,1.6)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                    \node[circle,solid] (c) at ( 1,-1.5) {};
+                    \node[circle,solid] (d) at (0,-3)     {};
+                    \node[circle,solid] (e) at (2,-3) {};
+                    \node[rectangle,solid] (true) at (0,-5) {};
+                    \node[rectangle,solid] (false) at (2,-5) {};
+
+                    %\draw[-] (a) edge (b);
+                    %\draw[-,densely dotted] (a) edge (c);
+                    \draw[-] (c) edge (d);
+                    \draw[-,densely dotted] (c) edge (e);
+                    %\draw[-,bend right=20] (b) edge (true);
+                    %\draw[-,densely dotted,bend left=20] (b) edge (false);
+                    \draw[-] (d) edge (true);
+                    \draw[-,densely dotted] (d) edge (false);
+                    \draw[-] (e) edge (true);
+                    \draw[-,densely dotted] (e) edge (false);
+                \end{scope}
+            \end{scope}
+            \begin{scope}[shift={(-\mycomposedscale,-\mycomposedscale)}]
+                \node[draw,rectangle,rounded corners,densely dashed,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (composed3) at (0,0)     {};
+
+                \begin{scope}[xscale=-1,shift={(-0.5,1.6)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+                    %\node[circle,solid] (a) at (0,0)     {};
+                    %\node[circle,solid] (b) at (-1,-1.5) {};
+                    \node[circle,solid] (c) at ( 1,-1.5) {};
+                    \node[circle,solid] (d) at (0,-3)     {};
+                    \node[circle,solid] (e) at (2,-3) {};
+                    \node[rectangle,solid] (true) at (0,-5) {};
+                    \node[rectangle,solid] (false) at (2,-5) {};
+
+                    %\draw[-] (a) edge (b);
+                    %\draw[-,densely dotted] (a) edge (c);
+                    \draw[-] (c) edge (d);
+                    \draw[-,densely dotted] (c) edge (e);
+                    %\draw[-,bend right=20] (b) edge (true);
+                    %\draw[-,densely dotted,bend left=20] (b) edge (false);
+                    \draw[-] (d) edge (true);
+                    \draw[-,densely dotted] (d) edge (false);
+                    \draw[-] (e) edge (true);
+                    \draw[-,densely dotted] (e) edge (false);
+                \end{scope}
+            \end{scope}
+
+            \draw[->,densely dashed] (composed1) edge (composed2);
+            \draw[->,densely dashed] (composed1) edge (composed3);
+        \end{scope}
+
+        % edges
+        %\draw[->] (bn) edge (partitionedbn);
+        \draw[->,rounded corners] (bn) -- (-8.25,-2.5) -- (0,-2.5) -- (partitionedbn);
+        \draw[->] (partitionedbn) edge (component1);
+        \draw[->] (partitionedbn) edge (component2);
+        \draw[->] (component1) edge (cnf1);
+        \draw[->] (component2) edge (cnf2);
+        \draw[->] (cnf1) edge (bdd1);
+        \draw[->] (cnf2) edge (bdd2);
+        \draw[->] (bdd1) edge (composed);
+        \draw[->] (bdd2) edge (composed);
+
+        \begin{scope}[every node/.style={
+                rotate=45,
+                draw=none,
+                anchor=west,
+                align=left}]
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (bn) -- (8,0);
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (partitionedbn) -- (8,-5);
+            \usetikzlibrary{calc}
+            \textnode[scale=0.7] (bnlabel) at (-4.5,0) {Bayesian\\Network};
+            \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (bn) -- (bnlabel.west);
+
+            \textnode[scale=0.7] (partitionlabel) at (6.5,-5) {Partitioning};
+            \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (partitionedbn) -- (partitionlabel.west);
+            \draw[-,rounded corners,densely dotted,shorten <= 5pt] (component2) -- ($(component2)+(2.5,0)$) --  ($(partitionedbn)+(5.5,0)$);
+
+            \textnode[scale=0.7]  (encodinglabel) at (6.5,-15) {Encoding};
+            \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (cnf2) -- (encodinglabel.west);
+
+            \textnode[scale=0.7]  (compilationlabel) at (6.5,-20) {Decision\\ Diagrams};
+            \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (bdd2) -- (compilationlabel.west);
+
+            \textnode[scale=0.7]  (compositionlabel) at (6.5,-29) {Composed\\Representation};
+            \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (composed) -- (compositionlabel.west);
+        \end{scope}
+
+
+
+% ====== monolithic graph ====================================================================================
+        \begin{scope}[shift={(-16.5,0)}]
+
+
+            \begin{scope}[shift={(0,-10)},every text node part/.style={align=center}]
+                \node[draw,rectangle,rounded corners,solid,thin,minimum width=\myrectanglesize,minimum height=\myrectanglesize]  (cnf) at (0,0)     {\scriptsize{Boolean}\\[-5pt]\scriptsize{formula}\\[-2pt] $h$};
+
+            \end{scope}
+
+            \begin{scope}[shift={(0,-18.4)}]
+                \node[draw,rectangle,rounded corners,solid,thin,minimum width=2*44pt,minimum height=2*44pt]  (compiled) at (0,0)     {};
+
+                \begin{scope}[shift={(-0.2,2.5)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+
+                    \node[circle,solid] (a) at (0,0)       {};
+                    \node[circle,solid] (b) at (-1,-1.5)   {};
+                    \node[circle,solid] (c) at (-2,-3)     {};
+                    \node[circle,solid] (d) at (0,-3)      {};
+                    \node[circle,solid] (e) at (-2,-4.5)   {};
+                    \node[circle,solid] (f) at (-3,-6)     {};
+                    \node[circle,solid] (g) at (-1,-6)     {};
+                    \node[circle,solid] (n) at (-2,-7.5)     {};
+                    \node[circle,solid] (o) at (0,-7.5)     {};
+
+                    \node[circle,solid] (h) at (1,-1.5) {};
+                    \node[circle,solid] (i) at (2,-3)   {};
+                    \node[circle,solid] (j) at (1,-4.5) {};
+                    \node[circle,solid] (k) at (3,-4.5) {};
+                    \node[circle,solid] (l) at (2,-6)   {};
+                    \node[circle,solid] (m) at (4,-6)   {};
+
+                    \node[rectangle,solid] (true) at (0,-10) {};
+                    \node[rectangle,solid] (false) at (2,-10) {};
+
+                    \draw[-] (a) edge (b);
+                    \draw[-] (b) edge (c);
+                    \draw[-,densely dotted] (b) edge (d);
+                    \draw[-] (c) edge (e);
+                    \draw[-] (e) edge (f);
+                    \draw[-,densely dotted] (e) edge (g);
+
+                    \draw[-,densely dotted] (a) edge (h);
+                    \draw[-] (h) edge (i);
+                    \draw[-] (i) edge (j);
+                    \draw[-,densely dotted] (i) edge (k);
+                    \draw[-] (k) edge (l);
+                    \draw[-,densely dotted] (k) edge (m);
+                    \draw[-] (d) edge (e);
+                    \draw[-,densely dotted,bend right=10] (d) edge (false);
+                    \draw[-] (j) edge (o);
+                    \draw[-] (g) edge (n);
+                    \draw[-,densely dotted] (g) edge (o);
+                    \draw[-,bend right=30] (f) edge (true);
+                    \draw[-,densely dotted,bend left=4] (f) edge (false);
+                    \draw[-,densely dotted] (h) edge (d);
+                    \draw[-] (o) edge (true);
+                    \draw[-,bend right=10] (n) edge (true);
+                    \draw[-,densely dotted] (o) edge (false);
+                    \draw[-,densely dotted] (j) edge (false);
+                    \draw[-] (l) edge (true);
+                    \draw[-,densely dotted] (l) edge (false);
+                    \draw[-] (m) edge (true);
+                    \draw[-,densely dotted] (m) edge (false);
+                \end{scope}
+            \end{scope}
+
+
+            \begin{scope}[shift={(0,-29)}]
+                \node[draw,rectangle,rounded corners,solid,thin,minimum width=2.9*44pt,minimum height=2.9*44pt]  (monolithic) at (0,0)     {};
+                \begin{scope}[shift={(-0.2,2.5)},scale=\mytikzlocalscale,every node/.style={draw,minimum size=0.7*\mynodesize*\mytikzlocalscale},every path/.style={>=latex}]
+
+                    \node[circle,solid] (a) at (0,0)       {};
+                    \node[circle,solid] (b) at (-1,-1.5)   {};
+                    \node[circle,solid] (c) at (-2,-3)     {};
+                    \node[circle,solid] (d) at (0,-3)      {};
+                    \node[circle,solid] (e) at (-2,-4.5)   {};
+                    \node[circle,solid] (f) at (-3,-6)     {};
+                    \node[circle,solid] (g) at (-1,-6)     {};
+                    \node[circle,solid] (n) at (-2,-7.5)     {};
+                    \node[circle,solid] (o) at (0,-7.5)     {};
+
+                    \node[circle,solid] (h) at (1,-1.5) {};
+                    \node[circle,solid] (i) at (2,-3)   {};
+                    \node[circle,solid] (j) at (1,-4.5) {};
+                    \node[circle,solid] (k) at (3,-4.5) {};
+                    \node[circle,solid] (l) at (2,-6)   {};
+                    \node[circle,solid] (m) at (4,-6)   {};
+
+                    \node[rectangle,solid] (true) at (0,-10) {};
+                    \node[rectangle,solid] (false) at (2,-10) {};
+
+                    \draw[-] (a) edge (b);
+                    \draw[-] (b) edge (c);
+                    \draw[-,densely dotted] (b) edge (d);
+                    \draw[-] (c) edge (e);
+                    \draw[-] (e) edge (f);
+                    \draw[-,densely dotted] (e) edge (g);
+
+                    \draw[-,densely dotted] (a) edge (h);
+                    \draw[-] (h) edge (i);
+                    \draw[-] (i) edge (j);
+                    \draw[-,densely dotted] (i) edge (k);
+                    \draw[-] (k) edge (l);
+                    \draw[-,densely dotted] (k) edge (m);
+                    \draw[-] (d) edge (e);
+                    \draw[-,densely dotted,bend right=10] (d) edge (false);
+                    \draw[-] (j) edge (o);
+                    \draw[-] (g) edge (n);
+                    \draw[-,densely dotted] (g) edge (o);
+                    \draw[-,bend right=30] (f) edge (true);
+                    \draw[-,densely dotted,bend left=4] (f) edge (false);
+                    \draw[-,densely dotted] (h) edge (d);
+                    \draw[-] (o) edge (true);
+                    \draw[-,bend right=10] (n) edge (true);
+                    \draw[-,densely dotted] (o) edge (false);
+                    \draw[-,densely dotted] (j) edge (false);
+                    \draw[-] (l) edge (true);
+                    \draw[-,densely dotted] (l) edge (false);
+                    \draw[-] (m) edge (true);
+                    \draw[-,densely dotted] (m) edge (false);
+                \end{scope}
+
+            \end{scope}
+
+
+            \draw[->] (cnf) edge  (compiled);
+            \draw[->] (compiled)  edge  (monolithic);
+
+            \begin{scope}[every node/.style={
+                rotate=45,
+                draw=none,
+                anchor=west,
+                align=left}]
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (bn) -- (8,0);
+            %\draw[-,dotted,shorten >= 10pt, shorten <= 10pt] (partitionedbn) -- (8,-5);
+                \usetikzlibrary{calc}
+
+                \textnode[scale=0.7]  (encodinglabel) at (5,-10) {Encoding};
+                \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (cnf) -- (encodinglabel.west);
+
+
+                \textnode[scale=0.7]  (compilationlabel) at (5,-18.4) {Decision\\ Diagram};
+                \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (compiled) -- (compilationlabel.west);
+
+                \textnode[scale=0.7]  (monolabel) at (6.5,-29) {Monolithic\\Representation};
+                \draw[-,densely dotted,shorten >= 5pt, shorten <= 5pt] (monolithic) -- (monolabel.west);
+
+            \end{scope}
+
+            \textnode[align=center] at (0,-36.5) {\textbf{(Monolithic)}\\\textbf{Weighted Model Counting}};
+        \end{scope}
+        \textnode[align=center] at (0,-36.5) {\textbf{Compositional}\\\textbf{Weighted Model Counting}};
+
+        \draw[->,rounded corners] (bn) -- (-8.25,-2.5) -- (-16.5,-2.5) -- (cnf);
+
+
+        \draw[->,dotted,bend left=15] (-14,-20) to node[scale=0.8,inner sep=0pt,draw=none,midway,xshift=15] {copy} (-15.3,-26);
+
+            \draw[->,dotted,bend right=15] (-4.2,-20) to node[scale=0.8,inner sep=0pt,draw=none,midway,xshift=-25] {compose} (-3,-26);
+        \begin{scope}[shift={(-14,0)}]
+            \draw[-,densely dotted, rounded corners] (24,2.5) rectangle (-8,-22.5)  ;
+            \draw[-,densely dotted, rounded corners] (24,-23.5) rectangle (-8,-34.5);
+            \textnode[rotate=90] at (-8.5,-10) {Compilation};
+            \textnode[rotate=90] at (-8.5,-29) {Inference};
+        \end{scope}
+\end{tikzpicture}
+\endgroup
+\end{minipage}

@@ -21,6 +21,12 @@ Let  $I \subseteq [n]$, then $X_I = \{X_i \mid i \in I, X_i \in X\}$. %
 
 \end{definition}
 
+\begin{example}[Bayesian Network]\label{ex:full}\label{ex:bn}
+ Figure~\ref{fig:bn} shows a BN $\mathcal{B}$ defined over variables $X = \{A,B\}$ (fig.\ref{subfig:bn}), its CPTs (fig.\ref{subfig:cpts}) and the corresponding weighted BDD (fig.\ref{subfig:bdd}).
+ \vspace{-2em}
+\input{figures/example.tex}
+\end{example}
+
 Posterior probabilities can be computed using well known lemmas in probability theory, like Bayes’ theorem:
 \[P(X | Y) = \frac{P(X | Y)P(Y)}{P(Y)},\]
 marginalization $P(X) = \sum_{y} P(X, Y = y)$, and the factorization property (Defintion~\ref{def:bnfac}).\todo{example?}

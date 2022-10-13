@@ -1,0 +1,53 @@
+\begin{figure}[H]
+    \centering
+
+    \hfill\begin{subfigure}[b]{150pt}
+        \centering
+        \begin{minipage}{150pt}
+            \centering
+            \setlength{\tabcolsep}{4pt}
+            \begin{small}
+                \begin{tabular}[t]{c | c | c}
+                    \normalsize{$P(A=1)$} & \normalsize{$P(A=2)$} & \normalsize{$P(A=3)$}\\\hline
+                    &&\\[-2ex]
+                    0.8 & 0.1 & 0.1
+                \end{tabular}
+            \end{small}
+        \end{minipage}\\\vspace{1em}%
+        \begin{minipage}{130pt}
+            \centering
+            \setlength{\tabcolsep}{4pt}
+            \begin{small}
+                \begin{tabular}[t]{l || c | c }
+                    \normalsize{$A$} & \normalsize{$P(B\!=\!1 | A)$} & \normalsize{$P(B\!=\!2 | A)$}\\\hline
+                    &&\\[-2ex]
+                    1 &  0.5 & 0.5\\
+                    2 &  0.5 & 0.5\\
+                    3 &  0 & 1\\
+                \end{tabular}
+            \end{small}
+        \end{minipage}
+        \caption{Conditional probability tables.}
+        \label{subfig:cpts}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{110pt}
+        \centering
+        \input{figures/example-1}
+        \caption{Bayesian network.}
+        \label{subfig:bn}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{80pt}
+        \centering
+        \scalebox{0.9}{
+        \input{figures/compilation-4}
+        }
+
+        \caption{BDD.}
+        \label{subfig:bdd}
+    \end{subfigure}\hfill
+
+
+    \caption{Bayesian network with local structure.}
+    \label{fig:bn}
+\end{figure}
+

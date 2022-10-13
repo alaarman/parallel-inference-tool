@@ -1,5 +1,9 @@
 %!TEX root = main.tex
 
+\newcommand{\myscale}[2]{\scalebox{#1}[#1]{#2}}
+\newcommand{\mymscale}[2]{\ensuremath{\scalebox{#1}[#1]{$#2$}}}
+\newcommand{\mysnl}[1]{\mymscale{0.85}{#1}}
+
 % keep spacing after a todo
 \makeatletter
 \xpretocmd{\todo}{\@bsphack}{}{}
