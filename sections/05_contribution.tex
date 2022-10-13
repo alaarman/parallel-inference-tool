@@ -8,13 +8,12 @@ Bayesian networks represent concise factorizations of probability distributions 
 \begin{figure}[!t]
     \centering
 
-    \scalebox{0.9}{
+    \scalebox{0.85}{
     \input{figures/completeoverview.tex}
     }
     \caption{The compositional framework from \cite{dal2021compositional}.}
     \label{fig:frameworkoverview}
 \end{figure}
-
 
 Figure~\ref{fig:frameworkoverview} shows an overview of the underlying principles behind probabilistic inference through knowledge compilation, divided into two steps: \emph{compilation} and \emph{inference}. We will dive into these steps in the following sections without going into too much detail. In-depth descriptions can be found in~\cite{dal2021compositional}. The concrete implementation of \toolname is described in \autoref{sec:tool}.
 
@@ -44,7 +43,9 @@ In-depth descriptions on the used partitioning technique are provided in~\cite{d
 
 \begin{figure}[!t]
     \centering
+    \scalebox{0.9}{
     \input{figures/implementation.tex}
+    }
     \caption{The implementation.}
     \label{fig:implementation}
 \end{figure}
@@ -61,7 +62,7 @@ Compilation is critically dependent upon a good variable ordering. The size of t
 
 The \engine takes as input a BN, probabilistic queries, and the \compiler's output (Figure~\ref{fig:implementation}). At its core, the \engine is able to perform probabilistic inference through marginalization. It does so using WMC (Section~\ref{subsec:inference}. Given a user-provided set of probabilistic queries, the corresponding marginalizations are performed. Prior to every WMC run, we need to instantiate the variables in the WPBDD, reflecting the marginalization we want to achieve. Proper variable instantiations in the WPBDD are attained by using the \compiler's variable mapping to map BN variables to WPBDD variables.
 
-In extension, we are able to compute conditional probabilities through Bayes' theorem (Section~\ref{sec:background}). Let's say we are interested in probability $P(X = x | E = e)$:  \[P(X = x | E = e) = \frac{P(X = x, E = e)}{P(E = e)}.\]
+In extension, we are able to compute conditional probabilities through Bayes' theorem (Section~\ref{sec:background}). Let's say we are interested in probability $P(X = x | E = e) = \frac{P(X = x, E = e)}{P(E = e)}$.
 We compute this using two marginalizations, i.e., we run WMC two times. Once for $P(X = x, E = e)$ and once for $P(E = e)$. Now let's say that we want to know the posterior probabilities for every of $X$'s $n$ values. Implementing this na\"ively would result in two marginalizations for each value, yielding a total of $2n$ marginalizations. We reduce this number by reusing the divisor for every computation, as it is unchanging. The divisor $P(E = e)$ is computed once, whereas the denominator $P(X = x, E = e)$ is adjusted for every value. This results in $n + 1$ marginalizations. To further reduce this further, we also use the fact that marginalizing over $X$ sums to $1$. In other words, we only need to compute the posteriors for $n-1$ values. The posterior probability of the last value can be obtained by subtracting the sum of the previous marginalizations from $1$. We therefore only need $n$ marginalizations to compute every posterior for variable $X$.
 
 Notice that each marginalization is an independent run of WMC, just with different variable instantiations. A trivial optimization here is that we can run every call to WMC in \emph{parallel}. Theoretically reducing the cost of computing the posterior probabilities for all instantiations of unobserved variables combined to the single WMC call that requires the most resources.
