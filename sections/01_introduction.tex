@@ -3,7 +3,7 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Hazard and safety analysis are important tools to mitigate risks and prevent disasters in many industries. The complicated interactions between industrial processes and production chains are often modeled in fault trees~\cite{sokukcu2022risk}, Bayesian networks~\cite{pearl2011bayesian}, and other graphical models~\cite{kollerfriedman2009,darwiche2022complete}, which enable reasoning under uncertainty.
+Hazard and safety analysis are important tools to mitigate risks and prevent disasters in many industries. The complicated interactions between industrial processes and production chains are often modeled in fault trees~\cite{sokukcu2022risk}, Bayesian networks~\cite{pearl2011bayesian}, and other graphical models~\cite{darwiche2022complete}, which enable reasoning under uncertainty.
 Many reasoning tasks are however hard and occur frequently. To remedy this problem, knowledge compilation aims to find a concise representation that enables fast queries on the same model.
 
 For this purpose, many representation languages~\cite{chavira2008probabilistic,darwiche2011sdd,hitzler2022tractable,sanner2005affine,tafertshofer1997factored} have been studied analytically, as well as in practice, demonstrating a clear tradeoff between the succinctness of the language ---with often exponential separations--- and the tractability of important operations on them. These operations can roughly be divided into manipulation operations and queries. The former plays an important role in the compilation step, which builds the knowledge base, while the latter is used to query it. For this reason, the budget for manipulation operations is often greater, since this step needs to happen only once.
